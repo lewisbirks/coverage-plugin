@@ -324,16 +324,15 @@ class CoverageTableModel extends TableModel {
                 double percentage = coverage.asRounded();
                 DisplayColors colors = CoverageLevel.getDisplayColorsOfCoverageLevel(percentage, colorProvider);
                 var cell = div()
-                        .withClasses(COVERAGE_COLUMN_OUTER).with(
-                        div().withClasses(COVERAGE_COLUMN_INNER)
-                                .withStyle("background-image: linear-gradient(90deg, %s %f%%, transparent %f%%);".formatted(
-                                        colors.getFillColorAsRGBAHex(TABLE_COVERAGE_COLOR_ALPHA),
-                                        percentage, percentage))
-                                .attr("data-bs-toggle", "tooltip")
-                                .attr("data-bs-placement", "top")
-                                .withTitle(FORMATTER.formatAdditionalInformation(coverage))
-                                .withText(FORMATTER.formatPercentage(coverage, browserLocale)))
-                        .render();
+                    .withClasses("jenkins-button", "coverage-cell-inner")
+                    .withStyle("--cell-background: %s; --cell-percentage: %f%%;".formatted(
+                        colors.getFillColorAsRGBHex(), percentage
+                    ))
+                    .attr("data-bs-toggle", "tooltip")
+                    .attr("data-bs-placement", "top")
+                    .withTitle(FORMATTER.formatAdditionalInformation(coverage))
+                    .withText(FORMATTER.formatPercentage(coverage, browserLocale))
+                    .render();
                 return new DetailedCell<>(cell, percentage);
             }
             return NO_COVERAGE;
