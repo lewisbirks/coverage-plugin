@@ -1,5 +1,5 @@
 <?jelly escape-by-default='true'?>
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler">
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:x="jelly:xml">
   <st:adjunct includes="io.jenkins.plugins.coverage.metrics.cell-style"/>
 
   <j:set var="coverageText" value="${it.getCoverageText(job)}"/>
@@ -11,23 +11,17 @@
       <td class="jenkins-table__cell--tight">
 
         <j:set var="displayColors" value="${it.getDisplayColors(job, coverageValue)}"/>
-        <j:set var="backgroundColor" value="${displayColors.getFillColorAsRGBAHex(80)}"/>
+        <j:set var="backgroundColor" value="${displayColors.getFillColorAsRGBHex()}"/>
         <j:set var="url" value="${it.getRelativeCoverageUrl(job)}"/>
         <j:set var="fillPercentage" value="${it.getBackgroundColorFillPercentage(coverageText)}"/>
+        <j:set var="url" value="${it.getRelativeCoverageUrl(job)}"/>
 
-        <div class="coverage-cell-outer jenkins-table__link">
-          <div class="coverage-cell-inner" style="background-image: linear-gradient(90deg, ${backgroundColor} ${fillPercentage}, transparent ${fillPercentage});">
-            <j:set var="url" value="${it.getRelativeCoverageUrl(job)}"/>
-            <j:choose>
-              <j:when test="${url.isEmpty()}">
-                ${coverageText}
-              </j:when>
-              <j:otherwise>
-                <a class="coverage-cell-link" href="${rootURL}/${job.url}lastSuccessfulBuild/${url}">${coverageText}</a>
-              </j:otherwise>
-            </j:choose>
-          </div>
-        </div>
+        <x:element name="${url.isEmpty() ? 'div' : 'a'}">
+          <x:attribute name="${url.isEmpty() ? null : 'href'}">${rootURL}/${job.url}lastSuccessfulBuild/${url}</x:attribute>
+          <x:attribute name="class">jenkins-button coverage-cell-inner</x:attribute>
+          <x:attribute name="style">--cell-background: ${backgroundColor}; --cell-percentage: ${fillPercentage};</x:attribute>
+            ${coverageText}
+        </x:element>
       </td>
     </j:when>
     <j:otherwise>

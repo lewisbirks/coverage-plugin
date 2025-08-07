@@ -1,12 +1,8 @@
-.coverage-cell-outer {
-    border: 1px solid var(--dark-grey);
-    border-radius: 10px;
-}
-
-.coverage-cell-inner { /* Bootstrap table. */
-    padding: 4px 7px;
-    border-radius: 10px;
+.coverage-cell-inner {
+    padding: 0.3125rem 0.625rem !important;
+    min-height: 0 !important;
     min-width: 5.5em; /* All percentages should use same width. */
+    background-image: linear-gradient(90deg, color-mix(in oklch, var(--cell-background), transparent 80%) var(--cell-percentage), transparent var(--cell-percentage));
 }
 
 .coverage-jenkins-cell-inner { /* Jenkins table. */
@@ -14,8 +10,3 @@
     border-radius: 10px;
     min-width: 4.5em; /* All percentages should use same width. */
 }
-
-.coverage-cell-link:hover {
-    text-decoration: none;
-}
-
